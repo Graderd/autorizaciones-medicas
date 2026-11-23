@@ -1,5 +1,5 @@
-
 using System;
+using System.Linq;
 
 namespace Autorizaciones.Domain.Entities
 {
@@ -44,8 +44,15 @@ namespace Autorizaciones.Domain.Entities
             if (cedula.Trim().Length != 11)
                 throw new ArgumentException("La cédula debe tener exactamente 11 caracteres");
 
-            if (telefono?.Trim().Length > 20)
-                throw new ArgumentException("El teléfono no puede superar los 20 caracteres");
+            var telefonoNormalizado = string.IsNullOrWhiteSpace(telefono)? null : telefono.Trim();
+
+            if (telefonoNormalizado != null &&
+                (telefonoNormalizado.Length != 10 ||
+                 !telefonoNormalizado.All(char.IsDigit)))
+            {
+                throw new ArgumentException(
+                    "El teléfono debe contener exactamente 10 dígitos");
+            }
 
             if (direccion?.Trim().Length > 250)
                 throw new ArgumentException("La dirección no puede superar los 250 caracteres");
@@ -54,7 +61,7 @@ namespace Autorizaciones.Domain.Entities
             Apellido = apellido.Trim();
             FechaNacimiento = fechaNacimiento.Date;
             Cedula = cedula.Trim();
-            Telefono = string.IsNullOrWhiteSpace(telefono) ? null : telefono.Trim();
+            Telefono = telefonoNormalizado;
             Direccion = string.IsNullOrWhiteSpace(direccion) ? null : direccion.Trim();
         }
     }

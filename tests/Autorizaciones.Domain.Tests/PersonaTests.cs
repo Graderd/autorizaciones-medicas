@@ -140,7 +140,7 @@ namespace Autorizaciones.Domain.Tests
         }
 
         [Fact]
-        public void Constructor_TelefonoMayorA20Caracteres_LanzaExcepcion()
+        public void Constructor_TelefonoMenorA10Digitos_LanzaExcepcion()
         {
             Assert.Throws<ArgumentException>(() =>
                 new Persona(
@@ -148,9 +148,62 @@ namespace Autorizaciones.Domain.Tests
                     "Perez",
                     new DateTime(1997, 5, 15),
                     "00112345678",
-                    new string('1', 21)
+                    "809555123"
                 )
             );
+        }
+
+        [Fact]
+        public void Constructor__Mayora10Digitos_LanzarExcepcion()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new Persona(
+                    "Maria",
+                    "Olivares",
+                    new DateTime(1965, 4, 28),
+                    "00122334898",
+                    "80955512345"
+                )
+            );
+        }
+
+        [Fact]
+        public void Constructor_TelefonoConLetras_LanzaExcepcion()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new Persona(
+                    "Carlos",
+                    "Ortega",
+                    new DateTime(1980, 7, 12),
+                    "00117434810",
+                    "809ABC1234"
+                )
+            );
+        }
+
+        [Fact]
+        public void Constructor_TelefonoConEspacio()
+        {
+            // Arrange
+            var fechaNacimiento = new DateTime(1997, 5, 15);
+
+            // Act
+            var persona = new Persona(
+                "Karina",
+                "Perez",
+                fechaNacimiento,
+                "00111344412",
+                "  8095551234  ",
+                "Santo Domingo"
+            );
+
+            // Assert
+            Assert.Equal("Karina", persona.Nombre);
+            Assert.Equal("Perez", persona.Apellido);
+            Assert.Equal(fechaNacimiento, persona.FechaNacimiento);
+            Assert.Equal("00111344412", persona.Cedula);
+            Assert.Equal("8095551234", persona.Telefono);
+            Assert.Equal("Santo Domingo", persona.Direccion);
         }
 
         [Fact]
@@ -165,6 +218,20 @@ namespace Autorizaciones.Domain.Tests
                     direccion: new string('A', 251)
                 )
             );
+        }
+
+        [Fact]
+        public void Constructor_TelefonoConEspacios_LoEstableceComoNull()
+        {
+            var persona = new Persona(
+                "Karina",
+                "Perez",
+                new DateTime(1997, 5, 15),
+                "00111344412",
+                "     "
+            );
+
+            Assert.Null(persona.Telefono);
         }
 
     }
