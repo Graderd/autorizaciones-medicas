@@ -21,15 +21,44 @@ namespace Autorizaciones.Domain.Entities
         public void RegistrarActualizacion(long usuarioId)
         {
             if(usuarioId <= 0)
-            {
                 throw new ArgumentException(
-            "El ID del usuario debe ser mayor que cero"
-        );
-            }
+                    "El ID del usuario debe ser mayor que cero");
 
         FechaActualizacion = DateTime.UtcNow;
         UsuarioActualizacionId = usuarioId;
         Version++;
         }
+
+
+        public void RegistrarInactivacion(long usuarioId)
+        {
+            if (usuarioId <= 0)
+                throw new ArgumentException(
+                    "El ID del usuario debe ser mayor que cero");
+
+            var ahora = DateTime.UtcNow;
+
+            FechaInactivacion = ahora;
+            UsuarioInactivacionId = usuarioId;
+
+            FechaActualizacion = ahora;
+            UsuarioActualizacionId = usuarioId;
+            Version++;
+        }
+
+        public void RegistrarReactivacion(long usuarioId)
+        {
+            if (usuarioId <= 0)
+                throw new ArgumentException(
+                    "El ID del usuario debe ser mayor que cero");
+
+            FechaInactivacion = null;
+            UsuarioInactivacionId = null;
+
+            FechaActualizacion = DateTime.UtcNow;
+            UsuarioActualizacionId = usuarioId;
+            Version++;
+        }
+
     }
 }
