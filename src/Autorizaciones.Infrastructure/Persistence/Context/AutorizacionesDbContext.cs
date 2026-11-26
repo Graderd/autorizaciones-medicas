@@ -4,6 +4,7 @@ using Autorizaciones.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Autorizaciones.Infrastructure.Persistence.Conventions;
 
 namespace Autorizaciones.Infrastructure.Persistence.Context
 {
@@ -24,6 +25,8 @@ namespace Autorizaciones.Infrastructure.Persistence.Context
 
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(AutorizacionesDbContext).Assembly);
+
+            SnakeCaseConvention.Apply(modelBuilder);
         }
     }
 }

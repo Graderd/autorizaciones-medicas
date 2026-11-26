@@ -13,7 +13,7 @@ namespace Autorizaciones.Domain.Entities
         public Empresa(
         string nombre,
         DateTime fechaConstitucion,
-        string rnc,
+        string rNC,
         string? telefono = null,
         string? direccion = null)
         {
@@ -29,10 +29,10 @@ namespace Autorizaciones.Domain.Entities
             if (fechaConstitucion.Date > DateTime.UtcNow.Date)
                 throw new ArgumentException("La fecha de constitución es obligatoria");
 
-            if (string.IsNullOrWhiteSpace(rnc))
+            if (string.IsNullOrWhiteSpace(rNC))
                 throw new ArgumentException("El RNC es obligatorio");
 
-            if (rnc.Trim().Length != 9)
+            if (rNC.Trim().Length != 9)
                 throw new ArgumentException("El RNC es invalido");
 
             if (telefono?.Trim().Length > 11)
@@ -43,7 +43,7 @@ namespace Autorizaciones.Domain.Entities
 
             Nombre = nombre.Trim();
             FechaConstitucion = fechaConstitucion.Date;
-            RNC = rnc.Trim();
+            RNC = rNC.Trim();
             Telefono = string.IsNullOrWhiteSpace(telefono) ? null : telefono.Trim();
             Direccion = string.IsNullOrWhiteSpace(direccion) ? null : direccion.Trim();
         }
