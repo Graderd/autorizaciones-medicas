@@ -39,27 +39,7 @@ namespace Autorizaciones.Infrastructure.Persistence.Configurations
                 .HasMaxLength(250)
                 .IsRequired(false);
 
-            builder.Property(persona => persona.FechaCreacion)
-                .IsRequired();
-
-            builder.Property(persona => persona.UsuarioCreacionId)
-                .IsRequired(false);
-
-            builder.Property(persona => persona.FechaActualizacion)
-                .IsRequired(false);
-
-            builder.Property(persona => persona.UsuarioActualizacionId)
-                .IsRequired(false);
-
-            builder.Property(persona => persona.FechaInactivacion)
-                .IsRequired(false);
-
-            builder.Property(persona => persona.UsuarioInactivacionId)
-                .IsRequired(false);
-
-            builder.Property(persona => persona.Version)
-                .IsRequired()
-                .HasDefaultValue(1);
+            EntidadAuditableConfiguration.Configure(builder);
         }
     }
 }

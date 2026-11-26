@@ -32,27 +32,7 @@ namespace Autorizaciones.Infrastructure.Persistence.Configurations
                 .HasForeignKey(afiliado => afiliado.PersonaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(afiliado => afiliado.FechaCreacion)
-                .IsRequired();
-
-            builder.Property(afiliado => afiliado.UsuarioCreacionId)
-                .IsRequired(false);
-
-            builder.Property(afiliado => afiliado.FechaActualizacion)
-                .IsRequired(false);
-
-            builder.Property(afiliado => afiliado.UsuarioActualizacionId)
-                .IsRequired(false);
-
-            builder.Property(afiliado => afiliado.FechaInactivacion)
-                .IsRequired(false);
-
-            builder.Property(afiliado => afiliado.UsuarioInactivacionId)
-                .IsRequired(false);
-
-            builder.Property(afiliado => afiliado.Version)
-                .IsRequired()
-                .HasDefaultValue(1);
+            EntidadAuditableConfiguration.Configure(builder);
         }
     }
 }

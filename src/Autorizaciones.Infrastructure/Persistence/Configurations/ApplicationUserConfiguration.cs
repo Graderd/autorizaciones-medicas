@@ -27,6 +27,10 @@ namespace Autorizaciones.Infrastructure.Persistence.Configurations
             builder.Property(usuario => usuario.NormalizedEmail)
                 .HasMaxLength(150);
 
+            builder.HasIndex(usuario => usuario.NormalizedEmail)
+                .IsUnique()
+                .HasDatabaseName("EmailIndex");
+
             builder.HasOne(usuario => usuario.Empleado)
                 .WithOne()
                 .HasForeignKey<ApplicationUser>(
@@ -50,17 +54,32 @@ namespace Autorizaciones.Infrastructure.Persistence.Configurations
             builder.Property(usuario => usuario.UsuarioCreacionId)
                 .IsRequired(false);
 
+            builder.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(usuario => usuario.UsuarioCreacionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(usuario => usuario.FechaActualizacion)
                 .IsRequired(false);
 
             builder.Property(usuario => usuario.UsuarioActualizacionId)
                 .IsRequired(false);
 
+            builder.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(usuario => usuario.UsuarioActualizacionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(usuario => usuario.FechaInactivacion)
                 .IsRequired(false);
 
             builder.Property(usuario => usuario.UsuarioInactivacionId)
                 .IsRequired(false);
+
+            builder.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(usuario => usuario.UsuarioInactivacionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
